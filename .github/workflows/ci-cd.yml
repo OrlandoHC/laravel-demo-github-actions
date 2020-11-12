@@ -30,7 +30,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, mysqli
           coverage: none
 
       - name: Copy ENV Laravel Configuration for CI
@@ -63,7 +63,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.3
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd, mysqli
           coverage: none
 
       - name: Install dependencies
@@ -71,14 +71,3 @@ jobs:
 
       - name: Copy dotenv file
         run: php -r "file_put_contents(__DIR__ . '/.env', '${{ secrets.DOT_ENV }}');"
-
-      - name: Deploy
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.KEY }}
-          ARGS: '-avzh --exclude=".*"'
-          SERVER_PORT: ${{ secrets.PORT }}
-          FOLDER: "./"
-          SERVER_IP: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          SERVER_DESTINATION: "/var/www/html"
